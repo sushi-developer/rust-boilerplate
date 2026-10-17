@@ -1,17 +1,10 @@
 # Rust API boilerplate
 
-An Axum 0.8 + Postgres (sqlx) + Redis starter with a layered layout:
-
 ```
 route  (src/routes)    HTTP: axum extractors, OpenAPI annotations, response envelope
   └─ service (src/services)  validation, business rules, domain errors
        └─ dao (src/dao)       SQL only, `impl PgExecutor<'_>` (pool or transaction)
 ```
-
-Included: a validated `Config` loaded once at boot, a single `{status, code, message, data}`
-JSON envelope for success and error, request/response logging with credential redaction,
-rate limiting (staging and production) and security headers, OpenAPI docs (Scalar, staging only), Redis cache
-helpers (`src/utils/cache.rs`), a Bruno collection and a Railway/Docker deploy.
 
 ## Run
 
@@ -56,9 +49,3 @@ Work bottom-up:
 6. [`src/routes`](src/routes/README.md): handlers, OpenAPI, and registration
 
 Cross-cutting: [`src/middlewares`](src/middlewares/README.md) and [`src/utils`](src/utils/README.md).
-
-## Rename the crate
-
-- `Cargo.toml`: `name`
-- `Dockerfile`: the `--bin` flag and the binary paths
-- `railway.toml`: `startCommand`
