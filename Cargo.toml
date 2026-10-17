@@ -1,0 +1,52 @@
+[package]
+name = "boilerplate"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[profile.release]
+lto = "thin"
+codegen-units = 16
+
+[dependencies]
+# ── Web ──
+axum = { version = "0.8", features = ["macros"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "set-header"] }
+tower_governor = { version = "0.8", features = ["axum"] }
+
+# ── Runtime ──
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "net", "time"] }
+
+# ── Database / cache ──
+sqlx = { version = "0.8", default-features = false, features = [
+    "runtime-tokio", "tls-rustls", "postgres", "macros", "chrono", "uuid",
+] }
+deadpool-redis = { version = "0.16", features = ["rt_tokio_1"] }
+
+# ── Serialization ──
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# ── Types ──
+uuid = { version = "1", features = ["v7", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# ── Logging ──
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "std", "env-filter"] }
+regex = "1"
+
+# ── Config ──
+dotenvy = "0.15"
+
+# ── API docs ──
+utoipa = { version = "5", features = ["axum_extras", "uuid", "chrono"] }
+utoipa-scalar = { version = "0.3", features = ["axum"] }
+
+# ── Local-dev infra (used by main.rs when ENVIRONMENT=local) ──
+testcontainers = "0.24"
+testcontainers-modules = { version = "0.12", features = ["postgres", "redis"] }
+
+[dev-dependencies]
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }

@@ -1,0 +1,8 @@
+target/
+.git/
+.claude/
+bruno/
+*.log
+.env
+.env.*
+!.env.example

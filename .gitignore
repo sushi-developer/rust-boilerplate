@@ -1,0 +1,10 @@
+/target/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.idea/
+.vscode/
+.claude/settings.local.json
+openapi.json
